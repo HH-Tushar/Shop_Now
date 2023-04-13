@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final mykey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: AbsorbPointer(
         absorbing:isabsorbing ,
@@ -91,16 +92,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: TextButton(
                   onPressed: () async {
+
                     if (mykey.currentState!.validate()) {
                      isabsorbing=true;
-                     isValidUser= await login(
+                     isValidUser= await CustomHttp.login(
                         emailController.text,
                         passwordController.text
                       );
-                     setState(() {
+                     print("validation of user is:$isValidUser");
+                     if(isValidUser==false){ setState(() {
                        mykey.currentState!.validate();
-                     });
-                     print(isValidUser);
+                       isValidUser=true;
+                     });}
+
                       isabsorbing=false;
                     }
                   },
